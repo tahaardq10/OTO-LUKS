@@ -6,7 +6,7 @@
     <title>MotoLÜKS ULTIMA | Taha & Fettah Edition</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -28,14 +28,14 @@
                 <a onclick="kategoriSec('araba')" id="nav-araba">OTOMOBİL</a>
                 <a onclick="kategoriSec('motor')" id="nav-motor">MOTOSİKLET</a>
                 <a onclick="profilGoster()" id="nav-profil">PROFİLİM</a>
-                <a onclick="ilanVerKontrol()" style="color:var(--ana-renk); font-weight:800;">+ ÜCRETSİZ İLAN VER</a>
+                <a onclick="ilanVerKontrol()" style="color:var(--ana-renk); font-weight:800; cursor:pointer;">+ ÜCRETSİZ İLAN VER</a>
             </div>
         </div>
     </header>
 
     <div class="main-container">
         <aside class="sidebar">
-            <h3 id="sidebarTitle">Popüler Markalar</h3>
+            <h3 id="sidebarTitle">Markalar</h3>
             <ul class="sidebar-menu" id="brandList"></ul>
         </aside>
 
@@ -52,11 +52,10 @@
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="modalKapat('loginModal')">&times;</span>
-            <h2 style="color:var(--ana-renk)">Giriş Yap / Kayıt Ol</h2>
+            <h2 style="color:var(--ana-renk)">Giriş Yap</h2>
             <input type="text" id="uAd" placeholder="Ad Soyad">
-            <input type="email" id="uMail" placeholder="E-posta">
-            <input type="tel" id="uTel" placeholder="WhatsApp (Örn: 5526085730)">
-            <button onclick="oturumAc()" class="btn-ana">SİSTEME GİR</button>
+            <input type="tel" id="uTel" placeholder="WhatsApp No (Örn: 0552...)">
+            <input type="hidden" id="uMail"> <button onclick="oturumAc()" class="btn-ana">SİSTEME GİR</button>
         </div>
     </div>
 
@@ -64,32 +63,35 @@
         <div class="modal-content">
             <span class="close" onclick="modalKapat('ilanVerModal')">&times;</span>
             <h2 style="color:var(--ana-renk)">İlanını Oluştur</h2>
-			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-    <input type="number" id="iYil" placeholder="Model Yılı (2023)" required>
-    <input type="number" id="iKm" placeholder="Kilometre" required>
-    <select id="iYakit" required>
-        <option value="">Yakıt Tipi</option>
-        <option value="Benzin">Benzin</option>
-        <option value="Dizel">Dizel</option>
-        <option value="Elektrik">Elektrik</option>
-        <option value="Hibrit">Hibrit</option>
-    </select>
-    <select id="iVites" required>
-        <option value="">Vites</option>
-        <option value="Manuel">Manuel</option>
-        <option value="Otomatik">Otomatik</option>
-    </select>
-</div>
-<input type="text" id="iRenk" placeholder="Araç Rengi (Örn: Metalik Siyah)">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <input type="number" id="iYil" placeholder="Model Yılı">
+                <input type="number" id="iKm" placeholder="Kilometre">
+                <select id="iYakit">
+                    <option value="">Yakıt Tipi</option>
+                    <option value="Benzin">Benzin</option>
+                    <option value="Dizel">Dizel</option>
+                    <option value="Elektrik">Elektrik</option>
+                </select>
+                <select id="iVites">
+                    <option value="">Vites</option>
+                    <option value="Manuel">Manuel</option>
+                    <option value="Otomatik">Otomatik</option>
+                </select>
+            </div>
+            
+            <input type="text" id="iRenk" placeholder="Renk">
             <input type="text" id="iMarka" placeholder="Marka">
             <input type="text" id="iModel" placeholder="Model">
             <input type="text" id="iFiyat" placeholder="Fiyat (TL)">
+            
             <select id="iTip">
                 <option value="araba">Otomobil</option>
                 <option value="motor">Motosiklet</option>
             </select>
+            
             <input type="file" id="iResim" accept="image/*">
-            <p id="yuklemeDurumu" style="display:none; color:var(--ana-renk); font-size:12px;">Yükleniyor...</p>
+            <p id="yuklemeDurumu" style="display:none; color:var(--ana-renk);">Yükleniyor, bekle kanka...</p>
             <button onclick="ilanYayinla()" id="yayinBtn" class="btn-ana">YAYINLA</button>
         </div>
     </div>
@@ -97,19 +99,6 @@
     <div id="detayModal" class="modal">
         <div class="modal-content" id="detayIcerik"></div>
     </div>
-
-    <footer>
-        <div class="signature">Taha Arda Bozdemir • Muhammed Fettah Kara Aslan • Kağan Arda Sargın</div>
-        <p style="font-size:12px; color:#555;">© 2026 MotoLÜKS ULTIMA - BalıkesirHakkımızda
-
-Biz, yenilikçi bakış açısını benimseyen ve kullanıcı odaklı çözümler üretmeyi hedefleyen bir ekibiz. Kurulduğumuz günden bu yana kaliteyi, güveni ve sürdürülebilirliği temel değerlerimiz olarak benimsiyoruz.
-
-Amacımız; teknolojiyi ve güncel gelişmeleri yakından takip ederek, kullanıcılarımıza en iyi deneyimi sunmak ve ihtiyaçlarına hızlı, etkili çözümler üretmektir. Her geçen gün kendimizi geliştiriyor, hizmetlerimizi daha ileriye taşımak için çalışıyoruz.
-
-Müşteri memnuniyeti bizim için her zaman ön plandadır. Bu doğrultuda şeffaflık, dürüstlük ve sürekli gelişim ilkeleriyle hareket ediyoruz. Sunduğumuz hizmetlerde kalite standartlarını en üst seviyede tutmayı hedefliyoruz.
-
-Geleceğe emin adımlarla ilerlerken, değerlerimizden ödün vermeden büyümeye ve sizlere daha iyi hizmet sunmaya devam edeceğiz.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
