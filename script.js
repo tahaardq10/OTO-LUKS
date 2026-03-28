@@ -11,12 +11,12 @@ const sabitMarkalar = {
     motor: ["Honda", "Yamaha", "Kawasaki", "Suzuki", "Ducati", "Aprilia", "KTM", "BMW Motorrad", "Bajaj", "TVS"]
 };
 
-// Verileri Buluttan Çek (Hoca için kritik kısım)
+// Verileri Buluttan Çek (Hocanın görmesini sağlayan asıl kısım)
 async function verileriGetir() {
     try {
         const response = await fetch(FIREBASE_URL);
         const data = await response.json();
-        // Firebase veriyi obje olarak verir, diziye çeviriyoruz
+        // Firebase veriyi nesne olarak verir, diziye çeviriyoruz
         ilanlar = data ? Object.keys(data).map(key => ({...data[key], fireId: key})) : [];
         if(aktifKategori === 'profil') profilGoster();
         else ilanlariGoster(ilanlar);
@@ -32,7 +32,7 @@ async function resmiSikistir(file) {
             img.src = e.target.result;
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 500; // Firebase kotası için boyutu optimize ettik
+                const MAX_WIDTH = 500; 
                 const scale = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scale;
@@ -45,8 +45,13 @@ async function resmiSikistir(file) {
 }
 
 async function ilanYayinla() {
-    const marka = document.getElementById('iMarka').value, model = document.getElementById('iModel').value, fiyat = document.getElementById('iFiyat').value, tip = document.getElementById('iTip').value, file = document.getElementById('iResim').files[0];
-    if(!marka || !file || !fiyat) return alert("Eksikleri doldur!");
+    const marka = document.getElementById('iMarka').value, 
+          model = document.getElementById('iModel').value, 
+          fiyat = document.getElementById('iFiyat').value, 
+          tip = document.getElementById('iTip').value, 
+          file = document.getElementById('iResim').files[0];
+
+    if(!marka || !file || !fiyat || !aktifKullanici) return alert("Eksikleri doldur kanka!");
     
     document.getElementById('yayinBtn').disabled = true;
     document.getElementById('yuklemeDurumu').style.display = 'block';
@@ -57,66 +62,32 @@ async function ilanYayinla() {
         sahibi: aktifKullanici.ad, mail: aktifKullanici.mail, tel: aktifKullanici.tel 
     };
     
+    // Veriyi Firebase'e gönderiyoruz
     await fetch(FIREBASE_URL, { method: 'POST', body: JSON.stringify(yeniIlan) });
     location.reload();
 }
 
-function profilGoster() {
-    if(!aktifKullanici) return modalAc('loginModal');
-    aktifKategori = 'profil';
-    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-    document.getElementById('nav-profil').classList.add('active');
-    
-    const header = document.getElementById('profilHeader');
-    header.innerHTML = `
-        <div class="user-info-card" style="background:var(--kart-arka); padding:20px; border-radius:15px; border:1px solid var(--ana-renk); margin-bottom:20px;">
-            <h2 style="color:var(--ana-renk)">👤 Profilim</h2>
-            <p><b>İsim:</b> ${aktifKullanici.ad}</p>
-            <p><b>E-posta:</b> ${aktifKullanici.mail}</p>
-            <p><b>WhatsApp:</b> ${aktifKullanici.tel}</p>
-            <button onclick="cikisYap()" class="btn-sil" style="position:static;">Çıkış Yap</button>
-        </div>
-        <div class="profile-tabs">
-            <div class="tab-link ${aktifProfilSekme === 'ilanlarim' ? 'active' : ''}" onclick="profilSekmeDegis('ilanlarim')">İlanlarım</div>
-            <div class="tab-link ${aktifProfilSekme === 'favorilerim' ? 'active' : ''}" onclick="profilSekmeDegis('favorilerim')">Favorilerim</div>
-        </div>
-    `;
-    profilSekmeDegis(aktifProfilSekme);
-}
-
-function profilSekmeDegis(sekme) {
-    aktifProfilSekme = sekme;
-    let liste = sekme === 'ilanlarim' 
-        ? ilanlar.filter(i => i.mail === aktifKullanici.mail)
-        : ilanlar.filter(i => favoriler.includes(i.id));
-    
+function ilanlariGoster(liste) {
     const grid = document.getElementById('adsGrid');
-    grid.innerHTML = liste.length === 0 ? `<p>Henüz bir şey yok kanka.</p>` : liste.map(i => kartOlustur(i)).join('');
+    if(!grid) return;
+    document.getElementById('profilHeader').innerHTML = ""; 
+    grid.innerHTML = liste.length === 0 ? `<p style="color:#666">Henüz ilan yok kanka.</p>` : liste.map(i => kartOlustur(i)).join('');
+    sidebarGuncelle();
+    vitrinGuncelle(liste);
 }
 
 function kartOlustur(i) {
     const isFav = favoriler.includes(i.id);
     return `
         <div class="kart" onclick="detayAc(${i.id})">
-            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); favoriTogle(${i.id})"><i class="fas fa-heart"></i></button>
+            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); favoriTogle(${i.id})">
+                <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+            </button>
             <img src="${i.resim}">
             <h4>${i.marka} ${i.model}</h4>
             <div class="fiyat">${i.fiyat} TL</div>
         </div>
     `;
-}
-
-function ilanlariGoster(liste) {
-    document.getElementById('profilHeader').innerHTML = "";
-    const grid = document.getElementById('adsGrid');
-    grid.innerHTML = liste.map(i => kartOlustur(i)).join('');
-    sidebarGuncelle();
-    vitrinGuncelle(liste);
-}
-
-function authKontrol() {
-    const div = document.getElementById('authSection');
-    div.innerHTML = aktifKullanici ? `<span onclick="profilGoster()" style="color:var(--ana-renk); cursor:pointer;">${aktifKullanici.ad}</span>` : `<button onclick="modalAc('loginModal')" class="btn-ana" style="padding:10px 20px;">Giriş Yap</button>`;
 }
 
 function oturumAc() {
@@ -127,10 +98,19 @@ function oturumAc() {
     location.reload();
 }
 
+function authKontrol() {
+    const div = document.getElementById('authSection');
+    if(!div) return;
+    div.innerHTML = aktifKullanici 
+        ? `<span onclick="profilGoster()" style="color:var(--ana-renk); cursor:pointer;">${aktifKullanici.ad}</span>` 
+        : `<button onclick="modalAc('loginModal')" class="btn-ana" style="padding:10px 20px;">Giriş Yap</button>`;
+}
+
 function favoriTogle(id) {
     if(!aktifKullanici) return modalAc('loginModal');
     const idx = favoriler.indexOf(id);
-    idx > -1 ? favoriler.splice(idx, 1) : favoriler.push(id);
+    if(idx > -1) favoriler.splice(idx, 1);
+    else favoriler.push(id);
     localStorage.setItem('m_favoriler', JSON.stringify(favoriler));
     verileriGetir();
 }
@@ -139,30 +119,26 @@ function kategoriSec(k) {
     aktifKategori = k;
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     document.getElementById('nav-' + k).classList.add('active');
-    let liste = k === 'hepsi' ? ilanlar : ilanlar.filter(i => i.tip === k);
-    ilanlariGoster(liste);
+    verileriGetir();
 }
 
 function sidebarGuncelle() {
     const list = document.getElementById('brandList');
+    if(!list) return;
     let mList = aktifKategori === 'araba' ? sabitMarkalar.araba : (aktifKategori === 'motor' ? sabitMarkalar.motor : [...sabitMarkalar.araba, ...sabitMarkalar.motor].slice(0,10));
     list.innerHTML = mList.map(m => `<li onclick="markaFiltrele('${m}')">${m}</li>`).join('');
 }
 
 function markaFiltrele(m) {
-    ilanlariGoster(ilanlar.filter(i => i.marka === m));
-}
-
-function vitrinGuncelle(liste) {
-    const track = document.getElementById('sliderTrack');
-    track.innerHTML = liste.slice(0, 10).map(i => `<div class="slider-item"><img src="${i.resim}"></div>`).join('');
+    const s = ilanlar.filter(i => i.marka.toLowerCase() === m.toLowerCase());
+    ilanlariGoster(s);
 }
 
 function detayAc(id) {
     const i = ilanlar.find(x => x.id === id);
     document.getElementById('detayIcerik').innerHTML = `
         <span class="close" onclick="modalKapat('detayModal')">&times;</span>
-        <img src="${i.resim}" style="width:100%; border-radius:15px;">
+        <img src="${i.resim}" style="width:100%; border-radius:15px; border:1px solid var(--ana-renk);">
         <h2 style="color:var(--ana-renk)">${i.marka} ${i.model}</h2>
         <h3>${i.fiyat} TL</h3>
         <p>Satıcı: ${i.sahibi}</p>
@@ -171,9 +147,14 @@ function detayAc(id) {
     modalAc('detayModal');
 }
 
+function vitrinGuncelle(liste) {
+    const track = document.getElementById('sliderTrack');
+    if(!track) return;
+    track.innerHTML = liste.slice(0, 10).map(i => `<div class="slider-item"><img src="${i.resim}"></div>`).join('');
+}
+
 function modalAc(id) { document.getElementById(id).style.display = 'block'; }
 function modalKapat(id) { document.getElementById(id).style.display = 'none'; }
-function cikisYap() { localStorage.removeItem('m_aktif'); location.reload(); }
 function ilanVerKontrol() { if(!aktifKullanici) modalAc('loginModal'); else modalAc('ilanVerModal'); }
 
 window.onload = () => { authKontrol(); verileriGetir(); };
