@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoLÜKS ULTIMA | Taha & Fettah Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="nav-main">
+            <div class="logo" onclick="location.reload()">MotoLÜKS</div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Marka veya model arayın..." onkeyup="aramaYap()">
+                <button onclick="aramaYap()"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-socials">
+                <a href="https://instagram.com/tahaardabbozdemir" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/905526085730" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <div id="authSection"></div>
+        </div>
+        <div class="sub-nav">
+            <div class="nav-links">
+                <a onclick="kategoriSec('hepsi')" id="nav-hepsi" class="active">TÜM İLANLAR</a>
+                <a onclick="kategoriSec('araba')" id="nav-araba">OTOMOBİL</a>
+                <a onclick="kategoriSec('motor')" id="nav-motor">MOTOSİKLET</a>
+                <a onclick="profilGoster()" id="nav-profil">PROFİLİM</a>
+                <a onclick="ilanVerKontrol()" style="color:var(--ana-renk); font-weight:800;">+ ÜCRETSİZ İLAN VER</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <h3 id="sidebarTitle">Popüler Markalar</h3>
+            <ul class="sidebar-menu" id="brandList"></ul>
+        </aside>
+
+        <main class="content">
+            <div id="profilHeader"></div>
+            <div class="ads-grid" id="adsGrid"></div>
+        </main>
+
+        <aside class="right-slider">
+            <div class="slider-track" id="sliderTrack"></div>
+        </aside>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="modalKapat('loginModal')">&times;</span>
+            <h2 style="color:var(--ana-renk)">Giriş Yap / Kayıt Ol</h2>
+            <input type="text" id="uAd" placeholder="Ad Soyad">
+            <input type="email" id="uMail" placeholder="E-posta">
+            <input type="tel" id="uTel" placeholder="WhatsApp (Örn: 5526085730)">
+            <button onclick="oturumAc()" class="btn-ana">SİSTEME GİR</button>
+        </div>
+    </div>
+
+    <div id="ilanVerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="modalKapat('ilanVerModal')">&times;</span>
+            <h2 style="color:var(--ana-renk)">İlanını Oluştur</h2>
+            <input type="text" id="iMarka" placeholder="Marka">
+            <input type="text" id="iModel" placeholder="Model">
+            <input type="text" id="iFiyat" placeholder="Fiyat (TL)">
+            <select id="iTip">
+                <option value="araba">Otomobil</option>
+                <option value="motor">Motosiklet</option>
+            </select>
+            <input type="file" id="iResim" accept="image/*">
+            <p id="yuklemeDurumu" style="display:none; color:var(--ana-renk); font-size:12px;">Yükleniyor...</p>
+            <button onclick="ilanYayinla()" id="yayinBtn" class="btn-ana">YAYINLA</button>
+        </div>
+    </div>
+
+    <div id="detayModal" class="modal">
+        <div class="modal-content" id="detayIcerik"></div>
+    </div>
+
+    <footer>
+        <div class="signature">Taha Arda Bozdemir • Muhammed Fettah Kara Aslan • Kağan Arda Sargın</div>
+        <p style="font-size:12px; color:#555;">© 2026 MotoLÜKS ULTIMA - Balıkesir</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

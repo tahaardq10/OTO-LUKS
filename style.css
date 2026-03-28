@@ -1,0 +1,49 @@
+:root { --ana-renk: #FFD700; --arka-plan: #000; --kart-arka: #111; --yazi-renk: #fff; --gri: #222; --kenar: #333; --kirmizi: #ff4d4d; }
+body { background: var(--arka-plan); color: var(--yazi-renk); font-family: 'Poppins', sans-serif; margin: 0; overflow-x: hidden; }
+
+header { background: #000; padding: 15px 5%; border-bottom: 3px solid var(--ana-renk); position: sticky; top: 0; z-index: 9999; }
+.nav-main { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.logo { font-size: 32px; font-weight: 800; color: var(--ana-renk); cursor: pointer; }
+
+.header-socials { display: flex; gap: 15px; align-items: center; }
+.header-socials a { font-size: 24px; color: #fff; transition: 0.3s; }
+.header-socials .fa-instagram:hover { color: #E1306C; }
+.header-socials .fa-whatsapp:hover { color: #25D366; }
+
+.search-bar { display: flex; flex: 1; max-width: 500px; }
+.search-bar input { width: 100%; padding: 12px 20px; border-radius: 25px 0 0 25px; border: 2px solid var(--ana-renk); background: #111; color: #fff; outline: none; }
+.search-bar button { background: var(--ana-renk); border: none; padding: 0 25px; border-radius: 0 25px 25px 0; cursor: pointer; }
+
+.sub-nav { display: flex; justify-content: center; margin-top: 15px; background: #0a0a0a; padding: 10px; border-radius: 15px; border: 1px solid var(--gri); }
+.nav-links a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: 600; cursor: pointer; font-size: 14px; }
+.nav-links a.active { color: var(--ana-renk); }
+
+.main-container { display: grid; grid-template-columns: 250px 1fr 200px; gap: 20px; padding: 30px 2%; min-height: 80vh; }
+.sidebar { background: var(--kart-arka); padding: 20px; border-radius: 20px; border: 1px solid var(--kenar); height: fit-content; position: sticky; top: 140px; }
+.sidebar-menu { list-style: none; padding: 0; }
+.sidebar-menu li { padding: 10px 0; cursor: pointer; border-bottom: 1px solid #1a1a1a; }
+
+.ads-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.kart { background: var(--kart-arka); border: 1px solid var(--kenar); border-radius: 15px; overflow: hidden; cursor: pointer; position: relative; padding: 10px; transition: 0.3s; }
+.kart img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
+.fiyat { color: var(--ana-renk); font-weight: 800; font-size: 18px; }
+
+.fav-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+.fav-btn.active { color: var(--kirmizi); }
+
+.modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+.modal-content { background: #0c0c0c; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 25px; border: 2px solid var(--ana-renk); position: relative; }
+.close { position: absolute; top: 15px; right: 20px; font-size: 30px; color: #fff; cursor: pointer; }
+
+input, select { width: 100%; padding: 12px; margin: 8px 0; background: #1a1a1a; border: 1px solid var(--kenar); color: #fff; border-radius: 10px; }
+.btn-ana { width: 100%; padding: 15px; background: var(--ana-renk); border: none; font-weight: 800; cursor: pointer; border-radius: 12px; }
+.btn-wp { background: #25D366; color: #fff; padding: 12px; text-decoration: none; display: block; text-align: center; border-radius: 10px; margin-top: 10px; }
+.btn-sil { background: var(--kirmizi); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+
+.right-slider { overflow: hidden; height: 70vh; }
+.slider-track { display: flex; flex-direction: column; gap: 10px; animation: scroll 30s linear infinite; }
+.slider-item img { width: 100%; border-radius: 10px; }
+@keyframes scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+
+footer { background: #050505; padding: 30px; text-align: center; margin-top: 50px; }
+.signature { font-family: 'Dancing Script', cursive; font-size: 24px; color: var(--ana-renk); }
