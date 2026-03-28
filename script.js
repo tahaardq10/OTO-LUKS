@@ -11,12 +11,11 @@ const sabitMarkalar = {
     motor: ["Honda", "Yamaha", "Kawasaki", "Suzuki", "Ducati", "Aprilia", "KTM", "BMW Motorrad", "Bajaj", "TVS"]
 };
 
-// Verileri Buluttan Çek (Hocanın görmesini sağlayan asıl kısım)
+// Verileri Buluttan Çek
 async function verileriGetir() {
     try {
         const response = await fetch(FIREBASE_URL);
         const data = await response.json();
-        // Firebase veriyi nesne olarak verir, diziye çeviriyoruz
         ilanlar = data ? Object.keys(data).map(key => ({...data[key], fireId: key})) : [];
         if(aktifKategori === 'profil') profilGoster();
         else ilanlariGoster(ilanlar);
@@ -62,7 +61,6 @@ async function ilanYayinla() {
         sahibi: aktifKullanici.ad, mail: aktifKullanici.mail, tel: aktifKullanici.tel 
     };
     
-    // Veriyi Firebase'e gönderiyoruz
     await fetch(FIREBASE_URL, { method: 'POST', body: JSON.stringify(yeniIlan) });
     location.reload();
 }
@@ -142,7 +140,7 @@ function detayAc(id) {
         <h2 style="color:var(--ana-renk)">${i.marka} ${i.model}</h2>
         <h3>${i.fiyat} TL</h3>
         <p>Satıcı: ${i.sahibi}</p>
-        <a href="https://wa.me/${i.tel}" target="_blank" class="btn-wp">WhatsApp'tan Yaz</a>
+        <a href="https://wa.me/${i.tel}?text=Selam%20${i.sahibi},%20OTOLUKS%20ilanın%20için%20yazıyorum." target="_blank" class="btn-wp">WhatsApp'tan Yaz</a>
     `;
     modalAc('detayModal');
 }
