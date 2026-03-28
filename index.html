@@ -11,13 +11,13 @@
 <body>
     <header>
         <div class="nav-main">
-            <div class="logo" onclick="location.reload()">OTO-LÜKS</div>
+            <div class="logo" onclick="location.reload()">MotoLÜKS</div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Marka veya model arayın..." onkeyup="aramaYap()">
                 <button onclick="aramaYap()"><i class="fas fa-search"></i></button>
             </div>
             <div class="header-socials">
-                <a href="https://instagram.com/tahaardabbozdemir" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://instagram.com/taha.bozdemir10" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="https://wa.me/905526085730" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
             <div id="authSection"></div>
@@ -64,6 +64,23 @@
         <div class="modal-content">
             <span class="close" onclick="modalKapat('ilanVerModal')">&times;</span>
             <h2 style="color:var(--ana-renk)">İlanını Oluştur</h2>
+			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+    <input type="number" id="iYil" placeholder="Model Yılı (2023)" required>
+    <input type="number" id="iKm" placeholder="Kilometre" required>
+    <select id="iYakit" required>
+        <option value="">Yakıt Tipi</option>
+        <option value="Benzin">Benzin</option>
+        <option value="Dizel">Dizel</option>
+        <option value="Elektrik">Elektrik</option>
+        <option value="Hibrit">Hibrit</option>
+    </select>
+    <select id="iVites" required>
+        <option value="">Vites</option>
+        <option value="Manuel">Manuel</option>
+        <option value="Otomatik">Otomatik</option>
+    </select>
+</div>
+<input type="text" id="iRenk" placeholder="Araç Rengi (Örn: Metalik Siyah)">
             <input type="text" id="iMarka" placeholder="Marka">
             <input type="text" id="iModel" placeholder="Model">
             <input type="text" id="iFiyat" placeholder="Fiyat (TL)">
@@ -83,7 +100,15 @@
 
     <footer>
         <div class="signature">Taha Arda Bozdemir • Muhammed Fettah Kara Aslan • Kağan Arda Sargın</div>
-        <p style="font-size:12px; color:#555;">© 2026 MotoLÜKS ULTIMA - Balıkesir</p>
+        <p style="font-size:12px; color:#555;">© 2026 MotoLÜKS ULTIMA - BalıkesirHakkımızda
+
+Biz, yenilikçi bakış açısını benimseyen ve kullanıcı odaklı çözümler üretmeyi hedefleyen bir ekibiz. Kurulduğumuz günden bu yana kaliteyi, güveni ve sürdürülebilirliği temel değerlerimiz olarak benimsiyoruz.
+
+Amacımız; teknolojiyi ve güncel gelişmeleri yakından takip ederek, kullanıcılarımıza en iyi deneyimi sunmak ve ihtiyaçlarına hızlı, etkili çözümler üretmektir. Her geçen gün kendimizi geliştiriyor, hizmetlerimizi daha ileriye taşımak için çalışıyoruz.
+
+Müşteri memnuniyeti bizim için her zaman ön plandadır. Bu doğrultuda şeffaflık, dürüstlük ve sürekli gelişim ilkeleriyle hareket ediyoruz. Sunduğumuz hizmetlerde kalite standartlarını en üst seviyede tutmayı hedefliyoruz.
+
+Geleceğe emin adımlarla ilerlerken, değerlerimizden ödün vermeden büyümeye ve sizlere daha iyi hizmet sunmaya devam edeceğiz.</p>
     </footer>
 
     <script src="script.js"></script>
